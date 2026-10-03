@@ -1,0 +1,267 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
+
+.invitation { 
+    position: fixed; 
+    top: 0; left: 0; 
+    width: 100vw; height: 100dvh; 
+    overflow: hidden; 
+}
+
+/* ---------- SAVE THE DATE SCREEN ---------- */
+.save-date-screen {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
+    overflow: hidden;
+    
+    background-color: #dbc232; 
+    opacity: 0; 
+    transition: opacity 7s ease-in-out; 
+}
+
+.save-date-screen.visible {
+    opacity: 1;
+}
+
+/* 1. THE BLURRED BACKGROUND (Desktop) */
+.save-date-screen::before {
+    content: "";
+    position: absolute; 
+    top: -50px; left: -50px; right: -50px; bottom: -50px;
+    background-image: url("images/savethedate-bg.jpg"); 
+    background-size: cover;
+    background-position: center;
+    filter: blur(30px); 
+    transform: scale(1.1); 
+    z-index: 0; 
+}
+
+/* 2. THE SHARP CENTER IMAGE (Desktop) */
+.img-desktop {
+    position: relative; 
+    width: 100%; height: 100%;
+    object-fit: contain; 
+    z-index: 1; 
+}
+
+/* Hide mobile image on desktop */
+.img-mobile { display: none; }
+
+/* 3. STAGGERED TEXT REVEAL */
+.savethedate-text-group {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 5; 
+    pointer-events: none;
+    opacity: 0; 
+    transition: opacity 4s ease-in-out; 
+}
+
+.savethedate-text-group.fade-in {
+    opacity: 1;
+}
+
+.savethedate-text-group img {
+    opacity: 0;
+    transition: opacity 5s ease-in-out;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.savethedate-text-group.fade-in img {
+    opacity: 1;
+}
+
+/* Your exact staggered delays */
+.savethedate-text-group.fade-in .std-vii { transition-delay: 1s; }
+.savethedate-text-group.fade-in .std-date { transition-delay: 5s; }
+.savethedate-text-group.fade-in .std-location { transition-delay: 9s; }
+.savethedate-text-group.fade-in .std-details { transition-delay: 13s; }
+
+/* Desktop Text Positions (Your exact numbers) */
+.std-vii { top: 25%; width: 15vw; max-width: 150px; }
+.std-date { bottom: 15%; width: 15%; }
+.std-location { bottom: 11%; width: 20%; }
+.std-details { bottom: 7.5%; width: 25%; }
+
+/* CRUCIAL FIX: Hide the mobile cursive text on desktop so it doesn't blow up */
+.std-script { display: none !important; }
+
+/* ---------- ENVELOPE SCREEN ---------- */
+.envelope-screen {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%; height: 100%;
+    z-index: 2;
+    perspective: 800px; 
+}
+
+.envelope {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    transform-style: preserve-3d; 
+}
+
+.envelope-half {
+    width: 50%; height: 100%;
+    background-image: url("images/envelope-bg.jpg");
+    background-repeat: no-repeat;
+    background-size: 200% 100%;
+    background-position: center;
+    
+    /* ADDED 'filter 8s ease-in-out' to the end of your existing transition */
+    transition: transform 20s cubic-bezier(0.5, 1, 0.5, 1), 
+                box-shadow 6s cubic-bezier(0.5, 1, 0.5, 1),
+                filter 3s ease-in-out; 
+                
+    position: relative;
+    backface-visibility: hidden;
+    z-index: 10;
+}
+
+/* NEW RULE: This slowly dims the doors when the class is added */
+.envelope.darken .envelope-half {
+    filter: brightness(0.65); /* 0.65 is a subtle, elegant dim. Change to 0.5 if you want it darker */
+}
+
+.envelope-left { transform-origin: left center; background-position: left center; }
+.envelope-right { transform-origin: right center; background-position: right center; }
+
+.envelope-left.open-left { 
+    transform: rotateY(-115deg) translateZ(10px); 
+    box-shadow: 30px 0 40px rgba(80, 50, 30, 0.15); 
+}
+.envelope-right.open-right { 
+    transform: rotateY(115deg) translateZ(10px); 
+    box-shadow: -30px 0 40px rgba(80, 50, 30, 0.15); 
+}
+
+.envelope-half::after {
+    content: ""; position: absolute; top: 0; height: 100%; width: 100%;
+    pointer-events: none; transition: opacity 6s ease-in-out;
+}
+.envelope-left::after { right: 0; background: linear-gradient(to right, transparent, rgba(255, 220, 180, 0.15)); }
+.envelope-right::after { left: 0; background: linear-gradient(to left, transparent, rgba(255, 220, 180, 0.15)); }
+
+/* ---------- WAX SEAL ---------- */
+.wax-seal {
+    position: absolute; left: 50.6%; top: 50%;
+    width: 120px; height: auto;
+    
+    transform: translate(-50%, -50%) translateZ(50px);
+    z-index: 20;
+    transition: transform 1.5s ease, opacity 1s ease, box-shadow 1.5s ease;
+}
+
+.wax-seal.seal-open {
+    transform: translate(-50%, -50%) translateZ(50px) translateY(40px) rotate(-20deg);
+    box-shadow: 0 20px 30px rgba(80, 50, 30, 0.15);
+    opacity: 0;
+}
+
+/* ---------- ENVELOPE TEXT GROUP (Fades Out) ---------- */
+.envelope-text-group {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 15; 
+    pointer-events: none; 
+    transition: opacity 2s ease-in-out; 
+}
+
+.envelope-text-group.fade-out {
+    opacity: 0;
+}
+
+/* Your exact Envelope text positions */
+.env-names {
+    position: absolute;
+    top: 0; 
+    left: 49%;
+    transform: translateX(-50%);
+    width: 50%; 
+}
+.env-std {
+    position: absolute;
+    top: 23%; 
+    left: 50.6%;
+    transform: translateX(-50%);
+    width: 12%;
+}
+.env-open {
+    position: absolute;
+    top: 58%; 
+    left: 50.8%;
+    transform: translateX(-50%);
+    width: 20%;
+}
+
+@media (max-width: 768px) {
+    
+    /* 1. BACKGROUND SWAPPING */
+    .img-desktop, 
+    .save-date-screen::before {
+        display: none !important;
+    }
+    
+    .img-mobile {
+        display: block !important;
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        object-fit: cover !important; 
+        z-index: 1;
+    }
+
+    /* 2. SAVE THE DATE TEXT POSITIONS (After clicking) */
+    .std-vii { top: 20% !important; width: 25vw !important; }
+    .std-date { bottom: 12% !important; width: 60vw !important; }
+    .std-location { bottom: 9% !important; width: 60vw !important; }
+    .std-details { bottom: 6.5% !important; width: 70vw !important; }
+
+    /* 3. ENVELOPE TEXT ON MOBILE (Before clicking) */
+    /* Hide the names on mobile */
+    .env-names { display: none !important; }
+    
+    /* Hide the desktop blocky text on mobile */
+    .env-std { display: none !important; }
+
+    /* Show the cursive text on the envelope */
+    .envelope-text-group .std-script {
+        display: block !important;
+        position: absolute;
+        top: 40% !important; /* Positioned exactly where the blocky text used to be */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80vw !important; 
+    }
+
+    /* Keep the "OPEN" text */
+    .envelope-text-group .env-open {
+        top: 58% !important; 
+        width: 40% !important; 
+    }
+
+    /* 4. ENVELOPE DOORS MOBILE */
+    .envelope-half {
+        background-image: url("images/envelope-bg-mobile.jpg") !important;
+        background-size: 200% 100% !important;
+        transition: transform 10s cubic-bezier(0.25, 1, 0.5, 1), 
+                    box-shadow 3s cubic-bezier(0.25, 1, 0.5, 1),
+                    filter 4s ease-in-out !important; 
+    }
+    
+    .envelope-left { background-position: left center !important; }
+    .envelope-right { background-position: right center !important; }
+
+    .wax-seal {
+        width: clamp(70px, 15vw, 110px);
+        transform: translate(-50%, -20%) translateZ(20px);
+    }
+    
+    .envelope-screen { perspective: 600px; }
+    body { touch-action: manipulation; }
+}
+
+#bg-music { display: none; }

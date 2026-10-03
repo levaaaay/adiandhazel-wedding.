@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vladimir & Hazel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main class="invitation">
+
+       <!-- ========================================== -->
+<!-- SAVE THE DATE SCREEN (Background & Text)   -->
+<!-- ========================================== -->
+<section class="save-date-screen">
+    <img src="images/savethedate-bg.jpg" class="img-desktop" alt="Save the Date">
+    <img src="images/savethedate-bg-mobile.jpg" class="img-mobile" alt="Save the Date Mobile">
+    
+    <!-- Save the Date Text Group (Fades IN after clicking) -->
+    <div class="savethedate-text-group">
+        <img src="images/vh.png" class="std-vii" alt="">
+        <!-- REMOVED the cursive text from here! -->
+        <img src="images/march-6-2027.png" class="std-date" alt="">
+        <img src="images/cavite-philippines.png" class="std-location" alt="">
+        <img src="images/wedding-details.png" class="std-details" alt="">
+    </div>
+</section>
+
+        <!-- ========================================== -->
+<!-- ENVELOPE SCREEN (Doors, Text & Seal)       -->
+<!-- ========================================== -->
+<section class="envelope-screen">
+    <div class="envelope">
+        <div class="envelope-half envelope-left"></div>
+        <div class="envelope-half envelope-right"></div>
+        
+        <!-- Envelope Text Group (Fades OUT on click) -->
+        <div class="envelope-text-group">
+            <img src="images/vladimir-hazel.png" class="env-names" alt="">
+            
+            <!-- ADDED the cursive text HERE for mobile! -->
+            <img src="images/savethedate-text-mobile.png" class="std-script" alt="">
+            
+            <img src="images/save-the-date.png" class="env-std" alt="">
+            <img src="images/open.png" class="env-open" alt="">
+        </div>
+        
+        <img src="images/waxseal.png" class="wax-seal" alt="">
+    </div>
+</section>
+
+    </main>
+
+    <audio id="bg-music" loop>
+        <source src="audio/invitationsong.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
